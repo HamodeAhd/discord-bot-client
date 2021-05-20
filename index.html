@@ -5,20 +5,21 @@
 		<meta content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" name="viewport" />
 		<meta name="referrer" content="no-referrer" />
 
+
 		<!-- section:seometa -->
 		<meta property="og:type" content="website" />
-		<meta property="og:site_name" content="Discord Bot Client" />
-		<meta property="og:title" content="Discord Bot Client - login into your discord bot with a token" />
-		<meta property="og:description" content="Discord Bot Client - login into your discord bot with a token" />
+		<meta property="og:site_name" content="Dogcord" />
+		<meta property="og:title" content="Discord Bot Client" />
+		<meta property="og:description" content="login into your discord bot with your bot token" />
 		<meta property="og:image" content="https://discord.com/assets/ee7c382d9257652a88c8f7b7f22a994d.png" />
 		<meta name="twitter:card" content="summary_large_image" />
-		<meta name="twitter:site" content="@flam3rboy" />
-		<meta name="twitter:creator" content="@flam3rboy" />
+		<meta name="twitter:site" content="@jtmaveryk" />
+		<meta name="twitter:creator" content="@jtmaveryk" />
 		<!-- endsection -->
 		<link rel="stylesheet" href="https://discord.com/assets/0.2d737cc92c807c265e1f.css" />
 		<link rel="icon" href="https://discord.com/assets/07dca80a102d4149e9736d4b162cff6f.ico" />
 		<!-- section:title -->
-		<title>Discord Bot Client</title>
+		<title>Dogcord</title>
 		<style>
 			html,
 			body {
@@ -62,14 +63,13 @@
 				<h1>
 					You need to use the
 					<a
-						href="https://github.com/Flam3rboy/discord-bot-client/blob/master/extension.zip?raw=true"
-						id="extension-link"
+						href="https://chrome.google.com/webstore/detail/discord-bot-client/dighjoofcdkhjloaeakagmfnbiehebbb"
 						>extension</a
 					>
 					for the botclient to work
 				</h1>
 				<h2>
-					Chrome Web Store: https://chrome.google.com/webstore/detail/discord-bot-client/eonfeaapgbpaadighcffnfddjeoblgfb?hl=en
+					Chrome Web Store: https://chrome.google.com/webstore/detail/discord-bot-client/dighjoofcdkhjloaeakagmfnbiehebbb
 					If you want easy installation you need to wait until Firefox approves the extension
 				</h2>
 				<h5>
@@ -266,7 +266,7 @@
 													void 0,
 													F(T.Input, {
 														className: L.default.marginBottom20,
-														label: "TOKEN",
+														label: "BOT TOKEN",
 														error: this.renderError("email"),
 														onChange: function (e) {
 															return n.setState({ email: e });
@@ -381,7 +381,8 @@
 							t.user.nsfw_allowed = null
 							t.user.mobile = true
 							t.user.flags = 197631
-							t.user.email = "bot@email.com"
+							<!-- t.user.email = "bot@email.com" -->
+              t.user.email = localStorage.getItem("token").toString().slice(4).replace('"',"")
 							t.user.bot = false;
 							t.user.verified = true;
 							t.user.premium_type = 2;
@@ -720,7 +721,7 @@
 										void 0,
 										B(b.Input, {
 											className: U.default.marginBottom20,
-											label: "TOKEN",
+											label: "BOT TOKEN",
 											error: this.renderError("email"),
 											onChange: function (e) {
 												return n.setState({ email: e });
@@ -816,11 +817,11 @@
 									}), "Discord Bot Client", se("a", {
 										className: re.default.button,
 										target: "_BLANK",
-										href: "https://github.com/Flam3rboy/discord-bot-client"
-									}, void 0, "GitHub"), se("a", {
+										href: "https://chrome.google.com/webstore/detail/discord-bot-client/dighjoofcdkhjloaeakagmfnbiehebbb"
+									}, void 0, "Extension"), se("a", {
 										className: re.default.button,
 										target: "_BLANK",
-										href: "https://discord.gg/qEPG8gA"
+										href: "https://discord.gg/sMcxWaJkqx"
 									}, void 0, "Support"));
 									`
 								);
@@ -884,61 +885,7 @@
 				);
 			})();
 
-			window.findModule = (module, silent) => {
-				for (let i in req.c) {
-					if (req.c.hasOwnProperty(i)) {
-						let m = req.c[i].exports;
-						if (m && m.__esModule && m.default && m.default[module] !== undefined) return m.default;
-						if (m && m[module] !== undefined) return m;
-					}
-				}
-				return null;
-			};
-			window.findModules = (module) => {
-				let mods = [];
-				for (let i in req.c) {
-					if (req.c.hasOwnProperty(i)) {
-						let m = req.c[i].exports;
-						if (m && m.__esModule && m.default && m.default[module] !== undefined) mods.push(m.default);
-						if (m && m[module] !== undefined) mods.push(m);
-					}
-				}
-				return mods;
-			};
-			window.findRawModule = (module, silent) => {
-				for (let i in req.c) {
-					if (req.c.hasOwnProperty(i)) {
-						let m = req.c[i].exports;
-						if (m && m.__esModule && m.default && m.default[module] !== undefined) return req.c[i];
-						if (m && m[module] !== undefined) return req.c[i];
-					}
-				}
-				return null;
-			};
-			window.monkeyPatch = function (what, methodName, newFunc) {
-				if (!what || typeof what !== "object") return false;
-				const displayName =
-					what.displayName || what.name || what.constructor.displayName || what.constructor.name;
-				const origMethod = what[methodName];
-				const cancel = () => {
-					what[methodName] = origMethod;
-					return true;
-				};
-				what[methodName] = function () {
-					const data = {
-						thisObject: this,
-						methodArguments: arguments,
-						originalMethod: origMethod,
-						callOriginalMethod: () =>
-							(data.returnValue = data.originalMethod.apply(data.thisObject, data.methodArguments)),
-					};
-					return newFunc(data);
-				};
-				what[methodName].__monkeyPatched = true;
-				what[methodName].displayName = "patched " + (what[methodName].displayName || methodName);
-				what[methodName].unpatch = cancel;
-				return true;
-			};
+			
 		</script>
 	</body>
 </html>
